@@ -1,0 +1,17 @@
+# docker-compose.yml
+redis:
+  image: redis
+  container_name: cache
+  expose:
+    - 6379
+
+app:
+  build: ./
+  ports:
+      - "127.0.0.1:7979:7979"
+  links:
+    - redis
+  environment:
+    - REDIS_URL=redis://cache
+    - PORT=7979
+    - TOKEN=@GHJKS*7373488erew!!!@
