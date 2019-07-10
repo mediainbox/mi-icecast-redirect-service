@@ -24,23 +24,36 @@ Body:
 	"token": token,
 	"groups": [
 		{
+			"name": "mi-01",
 			"priority": 1,
-			"host": "url/server.xml",
+			"host": "url",
 			"interval": 60,
 			"status": "online",
 			"credentials": {
-				"user": "",
-				"password": ""
+			   "user": user,
+			   "password": password
 			}
 		},
 		{
+			"name": "mi-01",
 			"priority": 2,
-			"host": "url/server.xml",
-			"interval": 60,
+			"host": "url",
 			"status": "online",
+			"interval": 60,
 			"credentials": {
-				"user": "",
-				"password": ""
+			   "user": user,
+			   "password": password
+			}
+		},
+		{
+			"name": "mi-02",
+			"priority": 1,
+			"host": "url",
+			"status": "online",
+			"interval": 60,
+			"credentials": {
+			   "user": user,
+			   "password": password
 			}
 		}
 	]

@@ -4,5 +4,5 @@ module.exports = (app) => {
 
     // Endpoints aplicacion
     app.post('/setup', index_controller.setup);
-    app.use('/streamkey/:streamkey', index_controller.root);
+    app.use('/group/:group/streamkey/:streamkey', index_controller.root);
 };

@@ -104,7 +104,7 @@ module.exports = {
             .then(response => {
                 server["status"] = "online";
                 console.log('------------------------------------------');
-                console.log(server.host, "status online, priority: ", server.priority);
+                console.log(server.host, "status online, priority: ", server.priority, " group: ", server.name);
                 let index = servers_group.findIndex(x => x.host == server.host && x.priority == server.servers_group);
                 if (index > -1) {
                     servers_group[index].status = server.status;
@@ -116,7 +116,7 @@ module.exports = {
             .catch(error => {
                 server.status = "offline";
                 console.log('------------------------------------------');
-                console.log(server.host, "status offline, priority: ", server.priority);
+                console.log(server.host, "status offline, priority: ", server.priority, " group: ", server.name);
                 let index = servers_group.findIndex(x => x.host == server.host && x.priority == server.servers_group);
                 if (index > -1) {
                     servers_group[index].status = server.status;

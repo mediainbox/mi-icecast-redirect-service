@@ -4,13 +4,14 @@ const redis_client = require('../cache/redis');
 module.exports = {
     async root(req, res, next) {
         let streamkey = req.params.streamkey;
-        if (!streamkey) {
+        let group_name = req.params.group;
+        if (!streamkey || !group_name) {
             res.status(404).send({
-                "error": "streamkey not found"
+                "error": "streamkey or group not found"
             });
         }
         let group = await helpers.getServers();
-        let server = await group.find(item => item.status == 'online');
+        let server = await group.find(item => item.status === 'online' && item.name === group_name);
         if (!server) {
             res.status(503).send({
                 "error": "Service Unavailable"
