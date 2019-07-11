@@ -67,7 +67,7 @@ module.exports = {
                     clearInterval(checkInfo);
                     let groups = JSON.parse(servers);
                     // Seteo nuevos intervalos
-                    let server_status = groups.map(server => {
+                    let server_status = groups.map(async server => {
                         return that.getStatus.call(that, server);
                     });
                     Promise.all(server_status).then(updatedInfo => {
