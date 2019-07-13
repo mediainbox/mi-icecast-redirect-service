@@ -21,40 +21,37 @@ Content-Type: applicacion/json
 Body:
 
 {
-	"token": token,
+	"token": "token",
 	"groups": [
 		{
 			"name": "mi-01",
 			"priority": 1,
-			"host": "url",
+			"host": "host_to_XML",
 			"interval": 60,
+			"listenerHost": "host",
 			"status": "online",
 			"credentials": {
-			   "user": user,
-			   "password": password
+			   "user": "user",
+			   "password": "password"
 			}
 		},
 		{
 			"name": "mi-01",
 			"priority": 2,
-			"host": "url",
-			"status": "online",
+			"host": "host_to_XML",
 			"interval": 60,
-			"credentials": {
-			   "user": user,
-			   "password": password
-			}
-		},
-		{
-			"name": "mi-02",
-			"priority": 1,
-			"host": "url",
+			"listenerHost": "host",
 			"status": "online",
-			"interval": 60,
 			"credentials": {
-			   "user": user,
-			   "password": password
+			   "user": "user",
+			   "password": "password"
 			}
 		}
 	]
 }
+
+Example URLS:
+http://localhost:7979/http/8000/group/mi-01/streamkey/example.mp3
+
+With SSL
+http://localhost:7979/https/443/group/mi-01/streamkey/example.mp3

@@ -5,9 +5,11 @@ module.exports = {
     async root(req, res, next) {
         let streamkey = req.params.streamkey;
         let group_name = req.params.group;
-        if (!streamkey || !group_name) {
+        let protocol = req.params.protocol;
+        let port = req.params.port;
+        if (!streamkey || !group_name || !protocol || !port) {
             res.status(404).send({
-                "error": "streamkey or group not found"
+                "error": "protocol, port, group, streamkey is missing."
             });
         }
         let group = await helpers.getServers();
@@ -21,7 +23,12 @@ module.exports = {
             let server_mounts = await helpers.checkServer(server.host, server.credentials.user, server.credentials.password);
             let mount = await server_mounts.find(item => item.mount == '/' + streamkey);
             if (mount) {
-                res.redirect(302, mount.listenurl);
+                // Armo host de redireccion aca
+                let redirect_url = `${protocol}://${server.listenerHost}:${port}/${streamkey}`;
+                if (protocol === "https") {
+                    redirect_url = `${protocol}://${server.listenerHost}/${streamkey}`;
+                }
+                res.redirect(302, redirect_url);
             } else {
                 res.status(404).send({
                     "error": "streamkey not found"
