@@ -16,8 +16,9 @@ module.exports = (app) => {
      * 			"name": "mi-01",
      * 			"priority": 1,
      * 			"host": "url",
-     * 			"interval": 60,
      * 			"status": "online",
+     * 			"interval": 60,
+     *          "listenerHost": "host",
      * 			"credentials": {
      * 			   "user": "user",
      * 			   "password": "password"
@@ -29,6 +30,7 @@ module.exports = (app) => {
      * 			"host": "url",
      * 			"status": "online",
      * 			"interval": 60,
+     *          "listenerHost": "host",
      * 			"credentials": {
      * 			   "user": "user",
      * 			   "password": "password"
@@ -40,6 +42,7 @@ module.exports = (app) => {
      * 			"host": "url",
      * 			"status": "online",
      * 			"interval": 60,
+     *          "listenerHost": "host",
      * 			"credentials": {
      * 			   "user": "user",
      * 			   "password": "password"
