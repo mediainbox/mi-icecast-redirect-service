@@ -51,7 +51,7 @@ Body:
 }
 
 Example URLS:
-http://localhost:7979/http/8000/group/mi-01/streamkey/example.mp3
+http://localhost:7979/http/8000/mi-01/example.mp3
 
 With SSL
-http://localhost:7979/https/443/group/mi-01/streamkey/example.mp3
+http://localhost:7979/https/443/mi-01/example.mp3

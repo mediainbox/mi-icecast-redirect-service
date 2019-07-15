@@ -58,11 +58,11 @@ module.exports = (app) => {
      */
     app.post('/setup', index_controller.setup);
     /**
-     * @api {put} /:protocol/:port/group/:group/streamkey/:streamkey Redirect
+     * @api {put} /:protocol/:port/:group/:streamkey Redirect
      * @apiVersion 1.0.0
      * @apiName mi-icecast-redirect
      * @apiGroup redirect
      * @apiPermission public
      */
-    app.use('/:protocol/:port/group/:group/streamkey/:streamkey', index_controller.root);
+    app.use('/:protocol/:port/:group/:streamkey', index_controller.root);
 };
