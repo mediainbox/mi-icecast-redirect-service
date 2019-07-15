@@ -7,10 +7,17 @@ module.exports = {
         let group_name = req.params.group;
         let protocol = req.params.protocol;
         let port = req.params.port;
+
+        // Aqui van los custom headers.
+        res.set({
+            'Cache-Control': 'max-age=30'
+        });
+
         if (!streamkey || !group_name || !protocol || !port) {
             res.status(404).send({
                 "error": "protocol, port, group, streamkey is missing."
             });
+            return false;
         }
         let group = await helpers.getServers();
         let server = await group.find(item => item.status === 'online' && item.name === group_name);
@@ -18,6 +25,7 @@ module.exports = {
             res.status(503).send({
                 "error": "Service Unavailable"
             });
+            return false;
         }
         try {
             let server_mounts = await helpers.checkServer(server.host, server.credentials.user, server.credentials.password);
