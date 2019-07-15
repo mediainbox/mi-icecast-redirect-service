@@ -31,6 +31,7 @@ module.exports = (app) => {
      * 			"status": "online",
      * 			"interval": 60,
      *          "listenerHost": "host",
+     *          "sourceHost": "host",
      * 			"credentials": {
      * 			   "user": "user",
      * 			   "password": "password"
@@ -43,6 +44,7 @@ module.exports = (app) => {
      * 			"status": "online",
      * 			"interval": 60,
      *          "listenerHost": "host",
+     *          "sourceHost": "host",
      * 			"credentials": {
      * 			   "user": "user",
      * 			   "password": "password"

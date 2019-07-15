@@ -30,6 +30,7 @@ Body:
 			"interval": 60,
 			"listenerHost": "host",
 			"status": "online",
+			"sourceHost": "host",
 			"credentials": {
 			   "user": "user",
 			   "password": "password"
@@ -42,6 +43,7 @@ Body:
 			"interval": 60,
 			"listenerHost": "host",
 			"status": "online",
+			"sourceHost": "host",
 			"credentials": {
 			   "user": "user",
 			   "password": "password"
