@@ -7,6 +7,7 @@ module.exports = {
         let group_name = req.params.group;
         let protocol = req.params.protocol;
         let port = req.params.port;
+        let method = req.method;
 
         // Aqui van los custom headers.
         res.set({
@@ -30,7 +31,14 @@ module.exports = {
         try {
             let server_mounts = await helpers.checkServer(server.host, server.credentials.user, server.credentials.password);
             let mount = await server_mounts.find(item => item.mount == '/' + streamkey);
+            // Si mount es true existe streamkey
             if (mount) {
+                if (method === 'PUT' || method === 'SOURCE') {
+                    res.status(403).send({
+                        "error": "Stream Already exist."
+                    });
+                    return false;
+                }
                 // Armo host de redireccion aca
                 let redirect_url = `${protocol}://${server.listenerHost}:${port}/${streamkey}`;
                 if (protocol === "https") {
@@ -38,6 +46,11 @@ module.exports = {
                 }
                 res.redirect(302, redirect_url);
             } else {
+                // Entro si no existe la streamkey
+                if (server.sourceHost && (method === 'PUT' || method === 'SOURCE')) {
+                    res.redirect(302, server.sourceHost);
+                    return false;
+                }
                 res.status(404).send({
                     "error": "streamkey not found"
                 });
