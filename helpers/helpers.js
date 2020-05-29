@@ -6,25 +6,57 @@ var intervals = [];
 var servers_group = [];
 
 module.exports = {
-    async checkServer(url, username, password) {
+    async fetchIce(server) {
+        let config = {
+            method: 'get',
+            url: server.host,
+            responseType: 'application/xml'
+        };
+        if (server.credentials) {
+            config["auth"] = {
+                username: server.credentials.user,
+                password: server.credentials.password
+            };
+        }
         try {
-            let response = await axios({
-                method: 'get',
-                url: url,
-                responseType: 'application/xml',
-                auth: {
-                    username: username,
-                    password: password
-                }
-            });
+            let response = await axios(config);
             response = await xmlParser.toJson(response.data);
             response = JSON.parse(response);
             let sources = response.icestats.source;
-
             return sources;
         } catch (error) {
-            throw error;
+            return new Error(error);
         }
+    },
+    async fetchSM(server) {
+        let config = {
+            method: 'get',
+            url: server.host,
+            responseType: 'application/json'
+        };
+        if (server.credentials) {
+            config["auth"] = {
+                username: server.credentials.user,
+                password: server.credentials.password
+            };
+        }
+        try {
+            let response = await axios(config);
+            let sources = response.data;
+            return sources;
+        } catch (error) {
+            console.log(error)
+            return new Error(error);
+        }
+    },
+    async checkServer(server) {
+        let source;
+        if (server.type && server.type === "sm") {
+            source = await this.fetchSM(server)
+            return source
+        }
+        source = await this.fetchIce(server)
+        return source
     },
     async setGroups(groups) {
         try {
@@ -98,34 +130,35 @@ module.exports = {
             });
         }, 3000);
     },
-    getStatus(server) {
+    async getStatus(server) {
         var that = this;
-        return that.checkServer(server.host, server.credentials.user, server.credentials.password)
-            .then(response => {
-                server["status"] = "online";
-                console.log('------------------------------------------');
-                console.log(server.host, "status online, priority: ", server.priority, " group: ", server.name);
-                let index = servers_group.findIndex(x => x.host == server.host && x.priority == server.servers_group);
-                if (index > -1) {
-                    servers_group[index].status = server.status;
-                } else {
-                    servers_group.push(server);
-                }
-                return server;
-            })
-            .catch(error => {
-                server.status = "offline";
-                console.log('------------------------------------------');
-                console.log(server.host, "status offline, priority: ", server.priority, " group: ", server.name);
-                let index = servers_group.findIndex(x => x.host == server.host && x.priority == server.servers_group);
-                if (index > -1) {
-                    servers_group[index].status = server.status;
-                } else {
-                    servers_group.push(server);
-                }
-                return server;
-            });
-
+        let response = await that.checkServer(server);
+        if (response instanceof Error) { 
+            server.status = "offline";
+            console.log('------------------------------------------');
+            console.log(server.host, "status offline, priority: ", server.priority, " group: ", server.name);
+            let index = await servers_group.findIndex(x => x.host == server.host && x.priority == server.servers_group);
+            if (index > -1) {
+                servers_group[index].status = server.status;
+            } else {
+                servers_group.push(server);
+            }
+            return server;
+        }
+        server["status"] = "online";
+        console.log('------------------------------------------');
+        console.log(server.host, "status online, priority: ", server.priority, " group: ", server.name);
+        let index = await servers_group.findIndex(x => x.host == server.host && x.priority == server.servers_group);
+        if (index > -1) {
+            if (server.type === "sm") {
+                servers_group[index].status = response.connected;
+            } else {
+                servers_group[index].status = response.status;
+            }
+        } else {
+            servers_group.push(server);
+        }
+        return server;
     },
     resetIntervals() {
         console.log("resetIntervals");

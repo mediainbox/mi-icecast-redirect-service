@@ -31,6 +31,7 @@ Body:
 			"listenerHost": "host",
 			"status": "online",
 			"sourceHost": "host",
+			"type": "ice",
 			"credentials": {
 			   "user": "user",
 			   "password": "password"
@@ -44,6 +45,7 @@ Body:
 			"listenerHost": "host",
 			"status": "online",
 			"sourceHost": "host",
+			"type": "sm",
 			"credentials": {
 			   "user": "user",
 			   "password": "password"

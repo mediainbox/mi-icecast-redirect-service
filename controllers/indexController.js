@@ -29,8 +29,13 @@ module.exports = {
             return false;
         }
         try {
-            let server_mounts = await helpers.checkServer(server.host, server.credentials.user, server.credentials.password);
-            let mount = await server_mounts.find(item => item.mount == '/' + streamkey);
+            let server_mounts = await helpers.checkServer(server);
+            let mount;
+            if (server.type && server.type === "sm") {
+                mount = await server_mounts.find(item => item.key == streamkey);
+            } else {
+                mount = await server_mounts.find(item => item.mount == '/' + streamkey);
+            }
             // Si mount es true existe streamkey
             if (mount) {
                 if (method === 'PUT' || method === 'SOURCE') {
@@ -56,6 +61,7 @@ module.exports = {
                 });
             }
         } catch (error) {
+            console.log(error)
             res.status(500).send({
                 "error": "Error on checking servers."
             });
@@ -71,6 +77,7 @@ module.exports = {
             res.status(401).send({
                 "error": "access denied"
             });
+            return;
         }
         try {
             await helpers.setGroups(json_object.groups);
@@ -78,6 +85,7 @@ module.exports = {
             res.status(200).send({
                 "info": "updated info"
             })
+            return;
         } catch (error) {
             res.status(500).send({
                 "error": "error on redis store data"

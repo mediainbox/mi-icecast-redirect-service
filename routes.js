@@ -19,6 +19,7 @@ module.exports = (app) => {
      * 			"status": "online",
      * 			"interval": 60,
      *          "listenerHost": "host",
+     *          "type": "sm/ice",
      * 			"credentials": {
      * 			   "user": "user",
      * 			   "password": "password"
@@ -32,6 +33,7 @@ module.exports = (app) => {
      * 			"interval": 60,
      *          "listenerHost": "host",
      *          "sourceHost": "host",
+     *          "type": "sm/ice",
      * 			"credentials": {
      * 			   "user": "user",
      * 			   "password": "password"
@@ -45,6 +47,7 @@ module.exports = (app) => {
      * 			"interval": 60,
      *          "listenerHost": "host",
      *          "sourceHost": "host",
+     *          "type": "sm/ice",
      * 			"credentials": {
      * 			   "user": "user",
      * 			   "password": "password"
